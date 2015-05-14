@@ -21,11 +21,26 @@ namespace EtcdCtl
             _httpClient.Dispose();
         }
 
-        public bool Put( string relativeServiceDataPath, object value, int ttl = -1 )
+        public string GetString( string path )
         {
-            var jsonServiceSettings = JsonConvert.SerializeObject( value );
+            string fullResourcePath = EtcdKeysRootUrl + path;
+            var result = _httpClient.GetAsync( fullResourcePath ).Result;
+            result.EnsureSuccessStatusCode();
+
+            var contents = result.Content.ReadAsStringAsync().Result;
+
+            return JsonConvert.DeserializeObject<EtcdEntry<string>>( contents ).Node.Value;
+        }
+
+        public void PutObject( string path, object value, int ttl = -1 )
+        {
+            PutString( path, JsonConvert.SerializeObject( value ), ttl );
+        }
+
+        public void PutString( string path, string value, int ttl = -1 )
+        {
             var keyValues = new List<KeyValuePair<string, string>>();
-            keyValues.Add( new KeyValuePair<string, string>( "value", jsonServiceSettings ) );
+            keyValues.Add( new KeyValuePair<string, string>( "value", value ) );
 
             if( ttl > 0 )
             {
@@ -34,16 +49,14 @@ namespace EtcdCtl
 
             var requestContent = new FormUrlEncodedContent( keyValues );
 
-            string fullServiceDataPath = EtcdKeysRootUrl + relativeServiceDataPath;
-            var result = _httpClient.PutAsync( fullServiceDataPath, requestContent ).Result;
-            return result.IsSuccessStatusCode;
+            string fullResourcePath = EtcdKeysRootUrl + path;
+            _httpClient.PutAsync( fullResourcePath, requestContent ).Result.EnsureSuccessStatusCode();
         }
 
-        public bool Delete( string relativeServiceDataPath )
+        public void Delete( string path )
         {
-            string fullServiceDataPath = EtcdKeysRootUrl + relativeServiceDataPath;
-            var result = _httpClient.DeleteAsync( fullServiceDataPath ).Result;
-            return result.IsSuccessStatusCode;
+            string fullResourcePath = EtcdKeysRootUrl + path;
+            _httpClient.DeleteAsync( fullResourcePath ).Result.EnsureSuccessStatusCode();
         }
     }
 }
