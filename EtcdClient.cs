@@ -21,9 +21,9 @@ namespace EtcdCtl
             _httpClient.Dispose();
         }
 
-        public bool Put( string relativeServiceDataPath, object serviceData, int ttl = -1 )
+        public bool Put( string relativeServiceDataPath, object value, int ttl = -1 )
         {
-            var jsonServiceSettings = JsonConvert.SerializeObject( serviceData );
+            var jsonServiceSettings = JsonConvert.SerializeObject( value );
             var keyValues = new List<KeyValuePair<string, string>>();
             keyValues.Add( new KeyValuePair<string, string>( "value", jsonServiceSettings ) );
 

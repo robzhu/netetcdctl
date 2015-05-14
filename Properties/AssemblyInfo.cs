@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("EtcdCtl")]
-[assembly: AssemblyDescription("windows command line tool for using etcd")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("EtcdCtl")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("Copyright © ")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("6d632fb8-d832-4347-928f-dd25969d22b9")]
+[assembly: Guid("6be04230-8652-47de-aac3-bda28b05da24")]
 
 // Version information for an assembly consists of the following four values:
 //
